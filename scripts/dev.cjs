@@ -1,11 +1,12 @@
 #!/usr/bin/env zx
-async function build() {
-    await import('zx/globals');
+const zx = require('zx/globals')
+
+async function dev() {
     $.verbose = true;
     await $`hippy-dev -c ./scripts/quicktvui-webpack.dev.cjs`
 }
 
-build().catch((e) => {
+dev().catch((e) => {
     console.error(e)
 })
 

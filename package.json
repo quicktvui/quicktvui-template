@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "zx ./scripts/dev.cjs",
     "build": "zx ./scripts/build.cjs",
+    "pack": "zx ./scripts/pack.cjs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
@@ -63,6 +64,7 @@
     "vue-tsc": "^2.0.11",
     "webpack": "^5.88.2",
     "webpack-cli": "^4.7.2",
-    "zx": "^8.0.1"
+    "zx": "^8.0.1",
+    "compressing": "^1.10.0"
   }
 }
