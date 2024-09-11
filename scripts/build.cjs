@@ -3,7 +3,6 @@ const zx = require('zx/globals')
 
 async function build() {
     $.verbose = true
-    await $`webpack --config ./scripts/quicktvui-webpack.android-vendor.cjs`
     await $`webpack --config ./scripts/quicktvui-webpack.android.cjs`
 }
 

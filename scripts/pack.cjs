@@ -6,7 +6,6 @@ const path = require('path')
 
 async function pack() {
     $.verbose = true;
-    await $`webpack --config ./scripts/quicktvui-webpack.android-vendor.cjs`
     await $`webpack --config ./scripts/quicktvui-webpack.android.cjs`
     const cwd = process.cwd()
     const dist = path.join(cwd, './dist')

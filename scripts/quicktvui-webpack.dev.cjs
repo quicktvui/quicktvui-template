@@ -1,9 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
-const HippyDynamicImportPlugin = require('@hippy/hippy-dynamic-import-plugin')
+const ESDynamicImportPlugin = require('@extscreen/es3-dynamic-import-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
-const watchPlugin = require('./webpack-watch.cjs');
+const watchPlugin = require('./webpack-watch.cjs')
 
 const pkg = require('../package.json')
 let cssLoader = '@hippy/vue-css-loader'
@@ -45,7 +45,8 @@ module.exports = {
     // chunkFilename: '[name].[chunkhash].js',
     strictModuleExceptionHandling: true,
     path: path.resolve('./dist/dev/'),
-    globalObject: '(0, eval)("this")'
+    globalObject: '(0, eval)("this")',
+    assetModuleFilename: '[hash][ext][query]'
   },
   plugins: [
     new VueLoaderPlugin(),
@@ -61,17 +62,7 @@ module.exports = {
       __PLATFORM__: null,
       __DEV__: true
     }),
-    new HippyDynamicImportPlugin(),
-    // LimitChunkCountPlugin can control dynamic import ability
-    // Using 1 will prevent any additional chunks from being added
-    // new webpack.optimize.LimitChunkCountPlugin({
-    //   maxChunks: 1,
-    // }),
-    // use SourceMapDevToolPlugin can generate sourcemap file while setting devtool to false
-    // new webpack.SourceMapDevToolPlugin({
-    //   test: /\.(js|jsbundle|css|bundle)($|\?)/i,
-    //   filename: '[file].map',
-    // }),
+    new ESDynamicImportPlugin(),
     new CleanWebpackPlugin()
   ],
   module: {
@@ -109,18 +100,11 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: true
-              // limit: 8192,
-              // fallback: 'file-loader',
-              // name: '[name].[ext]',
-              // outputPath: 'assets/',
-            }
-          }
-        ]
+        type: 'asset/resource',
+        generator: {
+          outputPath: 'assets/',
+          publicPath: 'assets/'
+        }
       },
       {
         test: /\.(ts)$/,

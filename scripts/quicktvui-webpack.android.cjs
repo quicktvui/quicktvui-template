@@ -1,13 +1,12 @@
 const path = require('path')
-const HippyDynamicImportPlugin = require('@hippy/hippy-dynamic-import-plugin')
+const ESDynamicImportPlugin = require('@extscreen/es3-dynamic-import-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
-
+const WebpackObfuscator = require('webpack-obfuscator');
 const platform = 'android'
 const pkg = require('../package.json')
-const manifest = require('../dist/android/vendor-manifest.json')
 let cssLoader = '@hippy/vue-css-loader'
 
 module.exports = {
@@ -20,18 +19,55 @@ module.exports = {
     filename: `[name].${platform}.js`,
     path: path.resolve(`./dist/${platform}/`),
     strictModuleExceptionHandling: true,
-    globalObject: '(0, eval)("this")'
+    globalObject: '(0, eval)("this")',
     // CDN path can be configured to load children bundles from remote server
     // publicPath: 'https://xxx/hippy/hippyVueNextDemo/',
+    publicPath: './',
+    assetModuleFilename: '[hash][ext][query]'
   },
   optimization: {
     moduleIds: 'named',
     minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false
-      })
-    ]
+    minimizer: [new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        output: {
+          // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，可以设置为false
+          beautify: false,
+          // 是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为false
+          comments: false
+        },
+        compress: {
+          warnings: false,
+          drop_debugger: true,
+          drop_console: true,
+          pure_funcs: ['console.log']
+        }
+      },
+      extractComments: false
+    })],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          filename: 'vendor.android.js'
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -45,21 +81,10 @@ module.exports = {
     }),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
-    new webpack.DllReferencePlugin({
-      context: path.resolve(__dirname, '..'),
-      manifest
-    }),
-    new HippyDynamicImportPlugin()
-    // LimitChunkCountPlugin can control dynamic import ability
-    // Using 1 will prevent any additional chunks from being added
-    // new webpack.optimize.LimitChunkCountPlugin({
-    //   maxChunks: 1,
-    // }),
-    // use SourceMapDevToolPlugin can generate sourcemap file
-    // new webpack.SourceMapDevToolPlugin({
-    //   test: /\.(js|jsbundle|css|bundle)($|\?)/i,
-    //   filename: '[file].map',
-    // }),
+    new ESDynamicImportPlugin(),
+    new WebpackObfuscator({
+      rotateStringArray: true
+    }, [''])
   ],
   module: {
     rules: [
@@ -111,19 +136,11 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              // if you would like to use base64 for picture, uncomment limit: true
-              // limit: true,
-              // limit: 8192,
-              fallback: 'file-loader',
-              name: '[name].[ext]',
-              outputPath: 'assets/'
-            }
-          }
-        ]
+        type: 'asset/resource',
+        generator: {
+          outputPath: 'assets/',
+          publicPath: 'assets/'
+        }
       },
       {
         test: /\.(ts)$/,

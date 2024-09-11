@@ -1,5 +1,4 @@
-import home from './views/home'
-import error from './views/error'
+import home from './views/home.vue'
 
 const routes = [
   {
@@ -10,7 +9,7 @@ const routes = [
   {
     path: '/error',
     name: 'error',
-    component: error
+    component: () => import('./views/error.vue')
   }
 ]
 
