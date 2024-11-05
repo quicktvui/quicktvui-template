@@ -20,10 +20,10 @@ module.exports = {
     path: path.resolve(`./dist/${platform}/`),
     strictModuleExceptionHandling: true,
     globalObject: '(0, eval)("this")',
+    assetModuleFilename: '[hash][ext][query]',
     // CDN path can be configured to load children bundles from remote server
     // publicPath: 'https://xxx/hippy/hippyVueNextDemo/',
-    publicPath: './',
-    assetModuleFilename: '[hash][ext][query]'
+    publicPath: './'
   },
   optimization: {
     moduleIds: 'named',

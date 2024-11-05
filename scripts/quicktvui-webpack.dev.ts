@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const ESDynamicImportPlugin = require('@extscreen/es3-dynamic-import-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
-const watchPlugin = require('./webpack-watch.cjs')
+const watchPlugin = require('./webpack-watch.ts');
 
 const pkg = require('../package.json')
 let cssLoader = '@hippy/vue-css-loader'
@@ -46,7 +46,7 @@ module.exports = {
     strictModuleExceptionHandling: true,
     path: path.resolve('./dist/dev/'),
     globalObject: '(0, eval)("this")',
-    assetModuleFilename: '[hash][ext][query]'
+    assetModuleFilename: '[hash][ext][query]',
   },
   plugins: [
     new VueLoaderPlugin(),
@@ -130,7 +130,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json', '.ts'],
     alias: (() => {
       const aliases = {
-        src: path.resolve('./src')
+        src: path.resolve('./src'),
+        quicktvui: path.resolve("../dist/quicktvui")
       }
       return aliases
     })()
