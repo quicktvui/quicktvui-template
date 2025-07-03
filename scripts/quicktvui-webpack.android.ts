@@ -4,10 +4,10 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
-const WebpackObfuscator = require('webpack-obfuscator');
+const WebpackObfuscator = require('webpack-obfuscator')
 const platform = 'android'
 const pkg = require('../package.json')
-let cssLoader = '@hippy/vue-css-loader'
+let cssLoader = '@extscreen/es3-vue-css-loader'
 
 module.exports = {
   mode: 'production',
@@ -28,24 +28,26 @@ module.exports = {
   optimization: {
     moduleIds: 'named',
     minimize: true,
-    minimizer: [new TerserPlugin({
-      parallel: true,
-      terserOptions: {
-        output: {
-          // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，可以设置为false
-          beautify: false,
-          // 是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为false
-          comments: false
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          output: {
+            // 是否输出可读性较强的代码，即会保留空格和制表符，默认为输出，为了达到更好的压缩效果，可以设置为false
+            beautify: false,
+            // 是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为false
+            comments: false
+          },
+          compress: {
+            warnings: false,
+            drop_debugger: true,
+            drop_console: true,
+            pure_funcs: ['console.log']
+          }
         },
-        compress: {
-          warnings: false,
-          drop_debugger: true,
-          drop_console: true,
-          pure_funcs: ['console.log']
-        }
-      },
-      extractComments: false
-    })],
+        extractComments: false
+      })
+    ],
     splitChunks: {
       chunks: 'all',
       minSize: 20000,
@@ -82,9 +84,12 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     new ESDynamicImportPlugin(),
-    new WebpackObfuscator({
-      rotateStringArray: true
-    }, [''])
+    new WebpackObfuscator(
+      {
+        rotateStringArray: true
+      },
+      ['']
+    )
   ],
   module: {
     rules: [
