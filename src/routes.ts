@@ -1,16 +1,21 @@
 import home from './views/home.vue'
+import error from './views/error.vue'
+import cast from './views/cast.vue'
 
-const routes = [
+export default [
   {
     path: '/home',
     name: 'home',
-    component: home
+    component: home,
   },
   {
     path: '/error',
     name: 'error',
-    component: () => import('./views/error.vue')
-  }
+    component: error,
+  },
+  {
+    path: '/cast',
+    name: 'cast',
+    component: cast,
+  },
 ]
-
-export default routes
