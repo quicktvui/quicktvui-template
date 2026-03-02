@@ -14,12 +14,13 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@quicktvui/quicktvui3": "3.0.0",
+    "@quicktvui/quicktvui3": "^3.0.0",
     "vue": "^3.4.21",
     "vue-tsc": "^2.0.11"
   },
   "devDependencies": {
-    "@quicktvui/build-tools": "1.0.0",
+    "@quicktvui/build-tools": "^1.0.0",
+    "@quicktvui/ai": "^1.0.0",
     "husky": "^8.0.0"
   },
   "lint-staged": {
