@@ -9,9 +9,7 @@
     "dev": "qt-dev android",
     "build:android": "qt-build android",
     "build:harmony": "qt-build harmony",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "prepare": "husky install"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@quicktvui/quicktvui3": "^3.0.0",
@@ -20,10 +18,6 @@
   },
   "devDependencies": {
     "@quicktvui/build-tools": "^1.0.0",
-    "@quicktvui/ai": "^1.0.0",
-    "husky": "^8.0.0"
-  },
-  "lint-staged": {
-    "*.{js,ts,vue}": "prettier --write"
+    "@quicktvui/ai": "^1.0.1"
   }
 }

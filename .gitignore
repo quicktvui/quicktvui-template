@@ -28,3 +28,17 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# QuickTVUI AI Rules
+.quicktvui-ai-backup
+.claude
+.clinerules
+.cursorrules
+.docs
+.github/copilot-instructions.md
+.windsurfrules
+AGENTS.md
+AI_HANDOFF.md
+CLAUDE.md
+GEMINI.md
+.source

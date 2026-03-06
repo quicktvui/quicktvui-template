@@ -23,7 +23,3 @@ import '@quicktvui/quicktvui3/dist/index.css'
 import { QuickTVUI } from '@quicktvui/quicktvui3'
 
 app.use(QuickTVUI)
-
-// Register WebRTCPlayer
-import WebRTCPlayer from './components/WebRTCPlayer'
-app.component('WebRTCPlayer', WebRTCPlayer)
