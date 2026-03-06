@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "@quicktvui/build-tools": "^1.0.0",
-    "@quicktvui/ai": "^1.0.1"
+    "@quicktvui/ai": "^1.1.0"
   }
 }
